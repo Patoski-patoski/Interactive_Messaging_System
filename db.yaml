@@ -1,5 +1,5 @@
-mysql_host: ' sql8.freesqldatabase.com'
+mysql_host: 'sql8.freesqldatabase.com'
 mysql_user: 'sql8714654'
-mysql_password: "sql8714654"
+mysql_password: "ngYg97sEIR"
 mysql_db: "sql8714654"
-mysql_port: 3306
+mysql_port: "3306"
