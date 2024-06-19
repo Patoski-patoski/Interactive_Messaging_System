@@ -1,0 +1,22 @@
+{# form_suppport.html #}
+{% macro display_field(field_name, placeholder)%}
+
+<div class="mb-3">
+  {{ field_name(class='form-control', placeholder=placeholder, **kwargs) }}
+
+
+  {# Error messages #}
+  {% if field_name.errors %}
+
+  <div class="text-danger">
+    <ul class="list-unstyled">
+      {% for error in field_name.errors %}
+      <li>{{ error }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  {% endif %}
+</div>
+
+{% endmacro %}
