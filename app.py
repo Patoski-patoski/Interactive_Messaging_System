@@ -1,8 +1,9 @@
 # app.py
 
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect, url_for
 from forms import *
 from db_models import db, ChatUser 
+# from fl
 
 import yaml
 
@@ -28,25 +29,35 @@ db.init_app(app)
 
 @app.route('/', methods=['POST', 'GET'])
 def index():
-    # Instantiates the instance of the registration form
-    form = RegistrationForm()
-        
-    if form.validate_on_submit():
-        fullname = form.fullname.data
-        username = form.username.data
-        sex = form.sex.data
-        password = form.confirm_password.data
-        
-        
-        # Else Creates a new user 
-        new_user = ChatUser(fullname=fullname, username=username, sex=sex, password=password)
+    """Route for the registration page."""
+    reg_form = RegistrationForm()
+    
+    # update database if validation successful
+    if reg_form.validate_on_submit():
+        new_user = ChatUser(
+            fullname=reg_form.fullname.data,
+            username = reg_form.username.data,
+            sex = reg_form.sex.data,
+            password = reg_form.password.data
+        )
         
         db.session.add(new_user)
         db.session.commit()
         
-        return "Inserted into a database"
+        return redirect(url_for('login'))
         
-    return render_template('index.html', form=form)
+    return render_template('index.html', form=reg_form)
+
+@app.route('/login', methods=['POST', 'GET'])
+def login():
+    """Instantiates the instance of the login form"""
+    login_form = LoginForm()
+        
+    if login_form.validate_on_submit():
+        return "Logged in successfully"
+    
+    return render_template('login.html', form=login_form)
+
 
 
 if __name__ == "__main__":
