@@ -3,7 +3,6 @@
 from flask import Flask, render_template, redirect, url_for
 from forms import *
 from db_models import db, ChatUser 
-# from fl
 
 import yaml
 
@@ -34,17 +33,26 @@ def index():
     
     # update database if validation successful
     if reg_form.validate_on_submit():
-        new_user = ChatUser(
-            fullname=reg_form.fullname.data,
-            username = reg_form.username.data,
-            sex = reg_form.sex.data,
-            password = reg_form.password.data
+        
+         fullname = reg_form.fullname.data
+         username = reg_form.username.data
+         sex      = reg_form.sex.data
+         password = reg_form.password.data
+         
+         # hash and encrypt password
+         hashed_pswd = pbkdf2_sha256.hash(password)
+        
+         new_user = ChatUser(
+            fullname=fullname,
+            username = username,
+            sex = sex,
+            password = hashed_pswd,
         )
         
-        db.session.add(new_user)
-        db.session.commit()
+         db.session.add(new_user)
+         db.session.commit()
         
-        return redirect(url_for('login'))
+         return redirect(url_for('login'))
         
     return render_template('index.html', form=reg_form)
 

@@ -3,8 +3,9 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import\
     DataRequired, InputRequired, Length, Regexp, EqualTo, ValidationError
-
+    
 from db_models import ChatUser
+from passlib.hash import pbkdf2_sha256
 
 
 def validate_credentials(form, field):
@@ -17,7 +18,7 @@ def validate_credentials(form, field):
     user_object = ChatUser.query.filter_by(username=username_entered).first()
     if user_object is None:
         raise ValidationError("Username or Password is incorrect")
-    elif password_entered != user_object.password:
+    elif not pbkdf2_sha256.verify(password_entered, user_object.password):
         raise ValidationError("Username or Password is incorrect")
 
 
@@ -49,7 +50,7 @@ class RegistrationForm(FlaskForm):
                message="Password must be at least 5 characters long.")
     ])
 
-    confirm_password = PasswordField('Password', validators=[
+    confirm_password = PasswordField('Confirm Password', validators=[
         InputRequired(message="Re-Enter Password."),
         EqualTo('password', message="Password must be matched")
     ])
