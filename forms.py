@@ -57,12 +57,12 @@ class RegistrationForm(FlaskForm):
 
     submit_btn = SubmitField('Create')
 
-    def validate_username(self, username):
-        user_object = ChatUser.query.filter_by(username=username.data).first()
-        if user_object:
-            raise ValidationError("Username already chosen. Choose another")
-        else:
-            pass
+    # def validate_username(self, username):
+    #     user_object = ChatUser.query.filter_by(username=username.data).first()
+    #     if user_object:
+    #         raise ValidationError("Username already chosen. Choose another")
+    #     else:
+    #         pass
 
 
 class LoginForm(FlaskForm):

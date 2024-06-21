@@ -1,8 +1,11 @@
 # app.py
-
 from flask import Flask, render_template, redirect, url_for
+from flask_login import LoginManager, login_user, current_user, login_required, logout_user
 from forms import *
 from db_models import db, ChatUser 
+from sqlalchemy.orm import Session
+
+
 
 import yaml
 
@@ -25,6 +28,16 @@ port = db_config['mysql_port']
 app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql://{user}:{passwd}@{host}:{port}/{database}"
 
 db.init_app(app)
+
+# configure flask login
+login = LoginManager(app)
+login.init_app(app)
+
+@login.user_loader
+def load_user(id):
+    with Session(db.engine) as session:
+        return session.get(ChatUser, int(id))
+
 
 @app.route('/', methods=['POST', 'GET'])
 def index():
@@ -62,12 +75,33 @@ def login():
     login_form = LoginForm()
         
     if login_form.validate_on_submit():
-        return "Logged in successfully"
+        user_object = ChatUser.query.filter_by(
+            username=login_form.username.data).first()
+        
+        login_user(user_object)
+        if current_user.is_authenticated:
+            return redirect(url_for('chat'))
+        else:
+            return "Not logged In"
     
     return render_template('login.html', form=login_form)
 
 
+@app.route('/chat', methods=['POST', 'GET'])
+# @login_required
+def chat():
+    
+    if not current_user.is_authenticated:
+        return "You must register/login to access chat"
+    
+    return "Ready to chat"
+
+
+@app.route('/logout', methods=['GET'])
+def logout():
+    
+    logout_user()
+    return "Logged out using flask_login"
 
 if __name__ == "__main__":
     app.run(debug=True)
-    

@@ -1,0 +1,21 @@
+{% from 'form_support.html' import display_field %}
+{% extends 'landing_page.html' %}
+
+<title>{% block title %}Login {% endblock title %} - Chatters</title>
+
+{% block content %}
+<h2>Login now!</h2>
+<p>Enter your details to "Chatter"</p>
+
+<form action="{{ url_for('login') }}" , method="POST">
+
+  {{ display_field(form.username, 'Enter username') }}
+  {{ display_field(form.password, 'Enter Password') }}
+
+  <div class="mb-3">
+    {{ form.submit_btn(class='btn btn-primary') }}
+  </div>
+
+  {{ form.csrf_token }}
+</form>
+{% endblock content %}
