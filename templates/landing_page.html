@@ -25,10 +25,18 @@
             </ul>
         </div>
     </nav>
-
     <div class="container">
         {% block content %}{% endblock content %}
     </div>
+
+      <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            Category: {{messages[0][0]}}
+            {{messages[0][1]}}
+        {% endif %}
+        {% endwith %}
+      </div>
 
     <!-- Bootstrap JS, Popper.js, and jQuery -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

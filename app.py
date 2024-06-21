@@ -1,5 +1,5 @@
 # app.py
-from flask import Flask, render_template, redirect, url_for
+from flask import Flask, render_template, redirect, url_for, flash
 from flask_login import LoginManager, login_user, current_user, login_required, logout_user
 from forms import *
 from db_models import db, ChatUser 
@@ -65,6 +65,7 @@ def index():
          db.session.add(new_user)
          db.session.commit()
         
+         flash('Registered Successfully! You will be redirected to Login!', 'success')
          return redirect(url_for('login'))
         
     return render_template('index.html', form=reg_form)
@@ -88,11 +89,12 @@ def login():
 
 
 @app.route('/chat', methods=['POST', 'GET'])
-# @login_required
 def chat():
     
     if not current_user.is_authenticated:
-        return "You must register/login to access chat"
+        flash('Please login!', 'danger')
+        return redirect(url_for('login'))
+    
     
     return "Ready to chat"
 
@@ -101,7 +103,9 @@ def chat():
 def logout():
     
     logout_user()
-    return "Logged out using flask_login"
+    flash('Loged out successfully', 'warning')
+    return redirect(url_for('login'))
+    
 
 if __name__ == "__main__":
     app.run(debug=True)
