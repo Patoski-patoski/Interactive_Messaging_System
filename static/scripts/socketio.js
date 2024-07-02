@@ -4,7 +4,6 @@ let room = "Coding";
 $(document).ready(function () {
     let socket = io();
 
-    // Join default room on load
     joinRoom(room);
 
     socket.on('message', data => {
