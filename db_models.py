@@ -1,7 +1,6 @@
 # db_models.py
 from flask_login import UserMixin
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.sql import func
 
 db = SQLAlchemy()
 
@@ -21,12 +20,13 @@ class ChatUser(db.Model, UserMixin):
         self.sex = sex
         self.password = password
 
+
 class ChatMessage(db.Model, UserMixin):
-    __tablename__ = "messages"
-    
+    __tablename__ = "chat_messages"
+
     id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.Text, nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('chat_users.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey("chat_users.id"), nullable=False)
     room = db.Column(db.String(50), nullable=False)
-    created_at = db.Column(db.String, nullable=False)
-    user = db.relationship('ChatUser', backref="messages")
+    created_at = db.Column(db.String(50), nullable=False)
+    user = db.relationship("ChatUser", backref="messages")

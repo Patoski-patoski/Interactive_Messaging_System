@@ -1,0 +1,16 @@
+{# private_msg.html #}
+
+{% extends "landing_page.html" %}
+{%block title} Private Chat {% endblock title %}
+
+
+{% block content %}
+    <div class="container_fluid mt-5">
+        <h1>Private Conversations</h1>
+        <div>
+            <input class="ml-7" type="text" id="recipient" placeholder="Recipient username">
+            <input class="ml-6" type="text" id="private-message" placeholder="Your message">
+            <button class="mb-3" id="send-private">Send Private Message</button>
+        </div>
+    </div>
+{% endblock content%}

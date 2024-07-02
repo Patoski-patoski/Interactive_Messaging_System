@@ -104,7 +104,6 @@ def login():
 
     return render_template("login.html", form=login_form)
 
-
 @app.route("/chat", methods=["POST", "GET"])
 def chat():
     # if not current_user.is_authenticated:
@@ -136,9 +135,6 @@ def handle_message(data: MessageData):
         room = data["room"]
         created_at = strftime("%Y-%m-%d %H:%M:%S", gmtime())
         
-        user = ChatUser.query.filter_by(username=username).first()
-        
-
         # Find user in the database
         user = ChatUser.query.filter_by(username=username).first()
 

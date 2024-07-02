@@ -30,7 +30,7 @@ $(document).ready(function () {
 
     $("#send").click(function () {
         let msg = $('#user-msg').val();
-        socket.send(({ 'msg': msg, 'username': username, 'created_at': created_at, 'room': room }));
+        socket.send(({ 'msg': msg, 'username': username, 'room': room }));
         $('#user-msg').val("");
     });
 
