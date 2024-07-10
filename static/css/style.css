@@ -1,0 +1,129 @@
+:root {
+    --custom-color: #F3F7EC;
+    --design-color: #f8f9fa;
+    --primary-color: #e88d67;
+    --secondary-color: #006989;
+    --tertiary-color: #005C78;
+    --time-color: #6c757d;
+}
+
+body {
+    background-color: var(--custom-color);
+    color: var(--secondary-color);
+    font-family: 'Lora', 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.custom-color {
+    color: var(--primary-color);
+}
+
+.custom-text {
+    color: var(--secondary-color);
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+    background-color: var(--tertiary-color);
+    border-color: var(--tertiary-color);
+}
+
+#chat-container {
+    height: 80vh;
+    margin-top: 20px;
+}
+
+#sidebar {
+    background-color: var(--design-color);
+    border-right: 1px solid var(--custom-color);
+    padding: 15px;
+}
+
+#room-list {
+    max-height: calc(80vh - 60px);
+    overflow-y: auto;
+}
+
+#chat-area {
+    display: flex;
+    flex-direction: column;
+    height: 80vh;
+}
+
+#chat-header {
+    background-color: var(--custom-color);
+    border-bottom: 1px solid var(--design-color);
+    padding: 10px;
+}
+
+#message-area {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 15px;
+    background-color: #dee2e6;
+    border-radius: 16px solid var(--time-color);
+}
+
+#input-area {
+    border-top: 1px solid #dee2e6;
+    padding: 15px;
+}
+
+.message {
+    margin-bottom: 15px;
+}
+
+.message .username {
+    font-weight: bold;
+    font-size: 0.8em;
+}
+
+.message .time {
+    color: var(--time-color);
+}
+
+
+.message .time {
+    color: var(--time-color);
+    font-size: 0.6em;
+    display: flex;
+    font-size: 0.6em;
+    margin-left: 5px;
+}
+
+.message .content {
+    background-color: #f1f3f5;
+    border-radius: 15px;
+    padding: 10px;
+    display: inline-block;
+}
+
+.message.own .content {
+    background-color: var(--secondary-color);
+    color: var(--design-color);
+}
+
+.list-group-item:hover {
+    cursor: pointer;
+    background-color: var(--custom-color);
+    transition: background-color 0.3s ease;
+}
+
+#send_msg{
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+footer {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: var(--secondary-color);
+}
+

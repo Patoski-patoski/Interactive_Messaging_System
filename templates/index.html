@@ -1,30 +1,25 @@
 {# index.html #}
+{% extends "base.html" %}
 {% from 'form_support.html' import display_field %}
-{% extends "landing_page.html" %}
 
-{% block title %} Registration {% endblock title %}
+{% block title %}Registration{% endblock title %}
 
 {% block content %}
-<div class="container_fluid mt-5">
-    <h1>Register</h1>
-    <form action="{{ url_for('index') }}", method='POST'>
-
-        {{ display_field(form.fullname, 'Fullname', autocomplete='on',
-        autofocus='true') }}
-
-        {{ display_field(form.username, 'Enter username') }}
-
-        {{ display_field(form.sex, 'Male or Female') }}
-
-        {{ display_field(form.password, 'Enter Password') }}
-
-        {{ display_field(form.confirm_password, 'Confirm Password') }}
-
-        <div class="mb-3">
-            {{ form.submit_btn(class='btn btn-primary') }}
-        </div>
-
-    {{ form.csrf_token }}
-    </form>
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <h2 class="mb-4">Register</h2>
+        <form action="{{ url_for('index') }}" method="POST">
+            {{ form.csrf_token }}
+            {{ display_field(form.fullname, 'Full Name', autocomplete='on', autofocus=true) }}
+            {{ display_field(form.username, 'Username') }}
+            {{ display_field(form.sex, 'Gender') }}
+            {{ display_field(form.password, 'Password', type='password') }}
+            {{ display_field(form.confirm_password, 'Confirm Password', type='password') }}
+            <div class="mb-3">
+                {{ form.submit_btn(class='btn btn-primary') }}
+            </div>
+        </form>
+            <span>Have an account already? <span><a href="{{ url_for("login") }}">Login</a>
+    </div>
 </div>
 {% endblock content %}

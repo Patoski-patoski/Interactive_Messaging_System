@@ -1,42 +1,91 @@
 {# chat.html #}
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Group Chat</title>
     <!-- Correct Bootstrap CSS CDN link -->
 
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
       integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-      crossorigin="anonymous"
-    />
+      crossorigin="anonymous">
+     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    {% block extra_css %}{% endblock extra_css %}
   </head>
 
-  <body>
-    <nav></nav>
-    <div id="main-section">
-      <nav id="side-bar">
-        <h4>ROOMS</h4>
-        {% for room in rooms %}
-        <p class="select-room">{{ room|title}}</p>
-        {% endfor %}
-      </nav>
-      <div id="right-panel">
-        <div id="display-msg"></div>
-        <div id="input-area">
-          <input
-            type="text"
-            autocomplete="on"
-            placeholder="Type here"
-            id="user-msg"
-          />
-          <button type="button" id="send">SEND</button>
+    <header class="container my-3">
+        <h1 class="custom-color">Chatters</h1>
+        {% block header %}{% endblock header %}
+    </header>
+    <body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
+        <div class="container">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                     <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('private_msg') }}">Chat with Friends</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('create_room') }}">Create new room</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+                    </li>
+                   
+                </ul>
+                <form class="d-flex" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+                    <!-- Add more nav items here -->
+            </div>
         </div>
-      </div>
+    </nav>
+
+    <main class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <h3>Rooms</h3>
+            <ul id="room-list" class="list-group">
+                <!-- Rooms will be populated here -->
+            </ul>
+        </div>
+        <div class="col-md-9">
+            <h2>Chat Room: <span id="current-room"></span></h2>
+            <div id="message-area"></div>
+            <form id="message-form">
+                <input type="text" class="form-control" id="user-msg" autocomplete="off" placeholder="Type your message...">
+                <button id="send_msg" class="form-control btn btn-primary" type="submit">Send</button>
+            </form>
+        </div>
     </div>
+</div>
+{% endblock content %}
+
 
     <script>
       let username = `{{ username }}`;
@@ -63,6 +112,10 @@
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
       crossorigin="anonymous"
     ></script>
+
+    <footer class="container mt-5">
+        <p class="text-center">&copy; 2024 Chatters. All rights reserved.</p>
+    </footer>
 
     <script src="{{ url_for('static', filename='scripts/socketio.js')}}"></script>
   </body>

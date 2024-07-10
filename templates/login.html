@@ -1,21 +1,25 @@
-{% from 'form_support.html' import display_field %}
-{% extends 'landing_page.html' %}
 
-<title>{% block title %}Login {% endblock title %} - Chatters</title>
+{# login.html #}
+{% extends 'base.html' %}
+{% from 'form_support.html' import display_field %}
+
+{% block title %}Login{% endblock title %}
 
 {% block content %}
-<h2>Login now!</h2>
-<p>Enter your details to "Chatter"</p>
-
-<form action="{{ url_for('login') }}" , method="POST">
-
-  {{ display_field(form.username, 'Enter username') }}
-  {{ display_field(form.password, 'Enter Password') }}
-
-  <div class="mb-3">
-    {{ form.submit_btn(class='btn btn-primary') }}
-  </div>
-
-  {{ form.csrf_token }}
-</form>
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <h2 class="mb-4">Login</h2>
+        <p class="mb-4">Enter your details to start chatting!</p>
+        <form action="{{ url_for('login') }}" method="POST">
+            {{ form.csrf_token }}
+            {{ display_field(form.username, 'Username') }}
+            {{ display_field(form.password, 'Password', type='password') }}
+            <div class="mb-3">
+                {{ form.submit_btn(class='btn btn-primary') }}
+            </div>
+        </form>
+            <span>Don't have an account yet? <span><a href="{{ url_for("index") }}">Register</a>
+    </div>
+    
+</div>
 {% endblock content %}
