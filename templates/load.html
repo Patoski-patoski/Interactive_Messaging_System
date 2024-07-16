@@ -1,0 +1,102 @@
+{# load.html #} 
+{% extends "chat_base.html" %} {% block title %}Chat App{%
+endblock title %} {% block navbar %}
+<div class="collapse navbar-collapse" id="navbarNav">
+  <ul class="navbar-nav">
+    <li class="nav-item">
+      <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{{ url_for('room_chat') }}">Group Chat</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+    </li>
+  </ul>
+</div>
+{% endblock navbar %} {% block extra_css %} {{ super() }}
+<style>
+  #chat-messages {
+    height: 400px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 20px;
+  }
+</style>
+{% endblock extra_css %} {% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-3">
+      {% block sidebar %}
+      <h3>Chat Info</h3>
+      <ul class="list-group">
+        <li class="list-group-item">Name: {{ name }}</li>
+        <li class="list-group-item">Code: {{ random_code }}</li>
+      </ul>
+      {% endblock sidebar %}
+    </div>
+    <div class="col-md-9">
+      {% block chat_area %}
+      <h2 class="mb-4">Chat Messages</h2>
+      <!-- Messages area -->
+      <div id="chat-messages" class="mb-3">
+        <!-- Messages will be appended here -->
+      </div>
+
+      <!-- Message input and send button -->
+      <form id="message-form">
+        <div class="input-group mb-3">
+          <input
+            type="text"
+            name="message-input"
+            id="message-input"
+            class="form-control"
+            placeholder="Type your message..." />
+          <button id="btn" class="btn btn-primary" type="submit">Send</button>
+        </div>
+      </form>
+      {% endblock chat_area %}
+    </div>
+  </div>
+</div>
+{% endblock content %} {% block extra_js %} {{ super() }}
+<script>
+
+  $(function () {
+          let chat_socket = io.connect("/chat_now");
+          const messages = $("#chat-messages");
+
+          const createMessage = (name, msg) => {
+            let contentP = `
+            <div class="text">
+              <span>
+                  <strong>${name}: </strong>${msg}
+              </span>
+                  <span class="muted">
+                  ${new Date().toLocaleString()}
+              </span>
+            </div>`;
+            messages.append(contentP);
+          };
+
+          chat_socket.on("message", (data) => {
+            createMessage(data.name, data.message);
+          });
+
+          $("#message-form").submit(function (e) {
+              e.preventDefault();
+              let message = $("#message-input");
+              if (message.val() == "") return;
+              chat_socket.emit("message", { data: message.val() });
+              message.val("");
+          });
+        });
+
+  {% for msg in messages %}
+      createMessage("{{msg.name}}", "{{msg.message}}");
+  {% endfor %}
+</script>
+<script src="{{ url_for('static', filename='scripts/socketio.js')}}"></script>
+
+{% endblock extra_js %}

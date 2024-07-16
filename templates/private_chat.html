@@ -1,0 +1,54 @@
+{# private_chat.html #}
+{% extends "chat_base.html" %}
+
+{% block title %}Private Chat{% endblock title %}
+
+{% block navbar %}
+<div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item"><div class="nav-link">Hello {{username}}🖐🏾,</div></li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('room_chat') }}">Room Chat</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('private_chat') }}">Add Friend</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+        </li>
+    </ul>
+    <form method="post" class="d-flex" action="{{ url_for('private_chat') }}">
+        <div class="form-group">
+            <input id="add-friend" class="form-control me-2" type="text" value="{{ username }}" placeholder="Add friend" name="search-friend" required>
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control mb-3" id="code" placeholder="Enter or generate a room code" name="code" value="{{ random_code }}" required>
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control mb-3" id="friend" placeholder="Enter or generate a room code" name="friend" required>
+        </div>
+        <div class="form-group">
+            <button id="search-friend-btn" class="btn btn-outline-success" type="submit">Search</button>
+        </div>
+    </form>
+</div>
+{% endblock navbar %}
+
+{% block sidebar %}
+<h3>Friends</h3>
+<ul id="friend-list" class="list-friend">
+    <!-- Friends will be populated here -->
+</ul>
+{% endblock sidebar %}
+
+{% block chat_area %}
+<h2>Friend Code: <span id="current-friend">{{ random_code }}</span></h2>
+<span>Conversation code: <span style="font-weight: bold" id="code">{{ random_code }}</span></span>
+<div id="message-area"></div>
+<form id="message-form">
+    <input type="text" class="form-control" id="user-msg" autocomplete="off" placeholder="Type your message...">
+    <button id="send_msg" class="form-control btn btn-primary" type="submit">Send</button>
+</form>
+{% endblock chat_area %}
+
+

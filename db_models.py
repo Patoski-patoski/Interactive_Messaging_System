@@ -94,3 +94,30 @@ class ChatRoom(db.Model):
     def __init__(self, roomname: str, code: str):
         self.roomname = roomname
         self.code = code
+        
+        
+class Friends(db.Model):
+    """
+    A class that represents a friends in the database.
+
+    This class inherits from the `db.Model` class, which provides the necessary
+    functionality for working with SQLAlchemy.
+
+    Attributes:
+        id (int): The unique identifier for the chat room.
+        name (str): The name of the friend.
+        code (str): The unique code for the chat room.
+
+    Methods:
+        __init__(self, name: str):
+            Initializes a new `Friend` instance with the provided name.
+    """
+    __tablename__ = "my_friends"
+
+    id = db.Column(db.Integer, primary_key=True)
+    friendname = db.Column(db.String(50), nullable=False)
+    code = db.Column(db.String(11), unique=True, nullable=False)
+
+    def __init__(self, friendname: str, code: str):
+        self.friendname = friendname
+        self.code = code

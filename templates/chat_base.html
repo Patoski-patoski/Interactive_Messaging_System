@@ -1,0 +1,31 @@
+{# chat_base.html #}
+{% extends "base.html" %}
+
+{% block extra_css %}
+<style>
+    #chat-messages {
+        height: 400px;
+        overflow-y: auto;
+        border: 1px solid #ccc;
+        padding: 10px;
+        margin-bottom: 20px;
+    }
+</style>
+{% endblock extra_css %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            {% block sidebar %}{% endblock sidebar %}
+        </div>
+        <div class="col-md-9">
+            {% block chat_area %}{% endblock chat_area %}
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block extra_js %}
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+{% endblock extra_js %}

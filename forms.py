@@ -8,20 +8,6 @@ from db_models import ChatUser
 from passlib.hash import pbkdf2_sha256
 
 
-def validate_credentials(form, field):
-    """Check password and username"""
-    username_entered = form.username.data
-    password_entered = field.data
-    
-    # check if credentials are valid
-    
-    user_object = ChatUser.query.filter_by(username=username_entered).first()
-    if user_object is None:
-        raise ValidationError("Username or Password is incorrect")
-    elif not pbkdf2_sha256.verify(password_entered, user_object.password):
-        raise ValidationError("Username or Password is incorrect")
-
-
 class RegistrationForm(FlaskForm):
     """Registration form"""
     fullname = StringField('Username', validators=[
@@ -58,7 +44,18 @@ class RegistrationForm(FlaskForm):
     submit_btn = SubmitField('Create')
 
 
+def validate_credentials(form, field):
+    """Check password and username"""
+    username_entered = form.username.data
+    password_entered = field.data
 
+    # check if credentials are valid
+
+    user_object = ChatUser.query.filter_by(username=username_entered).first()
+    if user_object is None:
+        raise ValidationError("Username or Password is incorrect")
+    elif not pbkdf2_sha256.verify(password_entered, user_object.password):
+        raise ValidationError("Username or Password is incorrect")
 
 class LoginForm(FlaskForm):
     """Login form"""
@@ -74,3 +71,5 @@ class LoginForm(FlaskForm):
             message="Password required"), validate_credentials])
 
     submit_btn = SubmitField('Login')
+    
+    

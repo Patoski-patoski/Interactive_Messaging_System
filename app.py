@@ -1,7 +1,7 @@
 # app.py
 from config import app, db, socketio, init_app
 import routes  # Import routes to register them with the app
-import socket_events  # Import socket events to register them with SocketIO
+# import socket_events
 import utils
 
 init_app(app)

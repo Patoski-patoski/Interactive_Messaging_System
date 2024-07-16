@@ -1,4 +1,23 @@
+{# create_room.html #}
 {% extends "base.html" %}
+
+{% block title %}Create Room{% endblock title %}
+
+{% block navbar %}
+<div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('private_chat') }}">Chat with Friends</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('room_chat') }}">Group Chat</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('logout') }}">LogOut</a>
+        </li>
+    </ul>
+</div>
+{% endblock navbar %}
 
 {% block content %}
 <div class="container my-5">
@@ -22,9 +41,7 @@
                             <button type="submit" id="create-room-form" class="btn btn-primary">Create Room</button>
                         </div>
                         {% if error %}
-                        <div class="alert alert-danger mt-2" role="alert">
-                            {{ error }}
-                        </div>
+                        <div class="alert alert-danger mt-2" role="alert">{{ error }}</div>
                         {% endif %}
                     </form>
                 </div>

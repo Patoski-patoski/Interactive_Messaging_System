@@ -1,5 +1,6 @@
 # config.py
 from flask import Flask
+from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_socketio import SocketIO
 from flask_login import LoginManager
@@ -16,7 +17,7 @@ class CustomJSONEncoder(JSONEncoder):
 
 
 app = Flask(__name__)
-app.secret_key = "supersecretkey"
+app.config['SECRET_KEY'] = 'your_secret_key'
 app.json_encoder = CustomJSONEncoder  # type: ignore
 
 # Configure db
@@ -36,9 +37,10 @@ app.config["SQLALCHEMY_DATABASE_URI"] = (
 db = SQLAlchemy()
 socketio = SocketIO()
 login_manager = LoginManager()
-
+migrate = Migrate(app, db)
 
 def init_app(app):
     db.init_app(app)
     socketio.init_app(app)
     login_manager.init_app(app)
+    login_manager.login_view = "login" # type: ignore
