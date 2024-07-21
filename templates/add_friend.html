@@ -1,31 +1,31 @@
-{# private_chat.html #}
+{# add_friend.html #}
 {% extends "chat_base.html" %}
 
-{% block title %}Private Chat{% endblock title %}
+{% block title %}Add Friend{% endblock title %}
 
 {% block navbar %}
 <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item"><div class="nav-link">Hello {{username}}🖐🏾,</div></li>
+        <li class="nav-item"><div class="nav-link">Hello 🖐🏾, {{username}}</div></li>
         <li class="nav-item">
             <a class="nav-link" href="{{ url_for('room_chat') }}">Room Chat</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('private_chat') }}">Add Friend</a>
+            <a class="nav-link" href="{{ url_for('add_friend') }}">Add Friend</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
         </li>
     </ul>
-    <form method="post" class="d-flex" action="{{ url_for('private_chat') }}">
+    <form method="post" class="d-flex" action="{{ url_for('add_friend') }}">
         <div class="form-group">
-            <input id="add-friend" class="form-control me-2" type="text" value="{{ username }}" placeholder="Add friend" name="search-friend" required>
+            <input id="username" class="form-control me-2" type="text" value="{{ username }}" placeholder="Your username" name="username" required>
         </div>
         <div class="form-group">
             <input type="text" class="form-control mb-3" id="code" placeholder="Enter or generate a room code" name="code" value="{{ random_code }}" required>
         </div>
         <div class="form-group">
-            <input type="text" class="form-control mb-3" id="friend" placeholder="Enter or generate a room code" name="friend" required>
+            <input type="text" class="form-control mb-3" id="friend-name" placeholder="Friend's name " name="friend-name" required>
         </div>
         <div class="form-group">
             <button id="search-friend-btn" class="btn btn-outline-success" type="submit">Search</button>
@@ -50,5 +50,3 @@
     <button id="send_msg" class="form-control btn btn-primary" type="submit">Send</button>
 </form>
 {% endblock chat_area %}
-
-

@@ -1,56 +1,69 @@
 {# create_room.html #}
-{% extends "base.html" %}
+{% extends "room_chat.html" %} {% block link %}
 
-{% block title %}Create Room{% endblock title %}
-
-{% block navbar %}
 <div class="collapse navbar-collapse" id="navbarNav">
-    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('private_chat') }}">Chat with Friends</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('room_chat') }}">Group Chat</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('logout') }}">LogOut</a>
-        </li>
-    </ul>
+  <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+    <li class="nav-item">
+      <a class="nav-link" href="{{ url_for('add_friend') }}">
+        Chat with Friends
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{{ url_for('room_chat') }}">Group Chat</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{{ url_for('login') }}">LogOut</a>
+    </li>
+  </ul>
 </div>
-{% endblock navbar %}
-
-{% block content %}
+{% endblock link %} {% block content %}
 <div class="container my-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Create a Chat Room</h3>
-                </div>
-                <div class="card-body">
-                    <form method="post">
-                        <div class="form-group">
-                            <label for="roomname">Room Name:</label>
-                            <input type="text" class="form-control mb-3" id="roomname" placeholder="Choose a room name" name="roomname" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="code">Room Code:</label>
-                            <input type="text" class="form-control mb-3" id="code" placeholder="Enter or generate a room code" name="code" value="{{ random_code }}" required>
-                        </div>
-                        <div class="form-group text-right">
-                            <button type="submit" id="create-room-form" class="btn btn-primary">Create Room</button>
-                        </div>
-                        {% if error %}
-                        <div class="alert alert-danger mt-2" role="alert">{{ error }}</div>
-                        {% endif %}
-                    </form>
-                </div>
-            </div>
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Create a Chat Room</h3>
         </div>
+        <div class="card-body">
+          <form method="post">
+            <div class="form-group">
+              <label for="roomname">Room Name:</label>
+              <input
+                type="text"
+                class="form-control mb-3"
+                id="roomname"
+                placeholder="Choose a room name"
+                name="roomname"
+                required />
+            </div>
+            <div class="form-group">
+              <label for="code">Room Code:</label>
+              <input
+                type="text"
+                class="form-control mb-3"
+                id="code"
+                placeholder="Enter or generate a room code"
+                name="code"
+                value="{{ random_code }}"
+                required />
+            </div>
+            <div class="form-group text-right">
+              <button
+                type="submit"
+                id="create-room-form"
+                class="btn btn-primary">
+                Create Room
+              </button>
+            </div>
+            {% if error %}
+            <div class="alert alert-danger mt-2" role="alert">{{ error }}</div>
+            {% endif %}
+          </form>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
-{% endblock content %}
-
-{% block extra_js %}
+{% endblock content %} {% block extra_js %}
 <script src="{{ url_for('static', filename='scripts/socketio.js') }}"></script>
 {% endblock extra_js %}

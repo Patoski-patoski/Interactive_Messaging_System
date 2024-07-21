@@ -59,19 +59,42 @@ class ChatMessage(db.Model, UserMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.Text, nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey("chat_users.id"), nullable=False)
     room = db.Column(db.String(50), nullable=True)
     created_at = db.Column(db.String(50), nullable=False)
+    
+    user_id = db.Column(db.Integer, db.ForeignKey("chat_users.id"), nullable=False)
     user = db.relationship("ChatUser", foreign_keys=[user_id], backref="sent_messages")
-    recipient_id = db.Column(db.Integer, db.ForeignKey("chat_users.id"), nullable=True)
-    recipient = db.relationship(
-        "ChatUser", foreign_keys=[recipient_id], backref="received_messages"
-    )
+    
+class PrivateChatMessage(db.Model, UserMixin):
+    """
+    A class that represents a private chat message in the database.
+
+    This class inherits from the `db.Model` and `UserMixin` classes, which provide the necessary
+    functionality for working with SQLAlchemy and Flask-Login, respectively.
+
+    Attributes:
+        id (int): The unique identifier for the chat message.
+        text (str): The text content of the chat message.
+        friend_id (int): The ID of the user who sent the message.
+        room (str): The name of the chat room where the message was sent.
+        created_at (str): The timestamp of when the message was created.
+        friend (ChatUser): The user object associated with the message.
+    """
+
+    __tablename__ = "private_chat_messages"
+
+    id = db.Column(db.Integer, primary_key=True)
+    text = db.Column(db.Text, nullable=False)
+    room = db.Column(db.String(50), nullable=True)
+    created_at = db.Column(db.String(50), nullable=False)
+    
+    friend_id = db.Column(db.Integer, db.ForeignKey("chat_users.id"), nullable=False)
+    friend = db.relationship("ChatUser", foreign_keys=[friend_id], backref="sent_messages_to_friend")
 
 
 class ChatRoom(db.Model):
     """
-    A class that represents a chat room in the database.
+    A class that represents a chat in the database.
 
     This class inherits from the `db.Model` class, which provides the necessary
     functionality for working with SQLAlchemy.
