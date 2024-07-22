@@ -285,7 +285,7 @@ def on_connect():
     current_datetime = f"{time.hour:02d}:{time.minute:02d}"
 
     join_room(chat_code)
-    send({"name": name, "msg": f"is online {current_datetime}"}, to=chat_code)  # type: ignore
+    emit("on_join", {"name": name, "msg": f": is online {current_datetime}"}, to=chat_code)  # type: ignore
     print(f"{name} joined room {chat_code}")
     
 

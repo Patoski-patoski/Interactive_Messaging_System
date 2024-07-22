@@ -1,9 +1,7 @@
-{# load.html #} 
-{% extends "chat_base.html" %} {% block title %}Chat App{%
+{# load.html #} {% extends "chat_base.html" %} {% block title %}Chat App{%
 endblock title %} {% block navbar %}
 <div class="collapse navbar-collapse" id="navbarNav">
   <ul class="navbar-nav">
-    
     <li class="nav-item">
       <a class="nav-link" href="{{ url_for('room_chat') }}">Group Chat</a>
     </li>
@@ -18,19 +16,10 @@ endblock title %} {% block navbar %}
     </li>
   </ul>
 </div>
-{% endblock navbar %} {% block extra_css %} {{ super() }}
-<style>
-  #chat-messages {
-    height: 400px;
-    overflow-y: auto;
-    border: 1px solid #ccc;
-    padding: 10px;
-    margin-bottom: 20px;
-  }
-</style>
-{% endblock extra_css %} {% block content %}
+{% endblock navbar %} {% block extra_css %} {{ super() }} {% endblock extra_css
+%} {% block content %}
 <script>
-      let username = `{{ name }} `;
+  let username = `{{ name }} `;
 </script>
 
 <div class="container">
@@ -71,15 +60,27 @@ endblock title %} {% block navbar %}
 {% endblock content %} {% block extra_js %} {{ super() }}
 
 <script>
-      let friendname = `{{ name }} `;
+  let code = "{{ random_code }}".trim();
+  let username = "{{ name }}".trim();
 </script>
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"
+  integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA=="
+  crossorigin="anonymous"></script>
+<script
+  src="https://code.jquery.com/jquery-3.7.1.min.js"
+  integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+  crossorigin="anonymous"></script>
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js"
+  integrity="sha512-ykZ1QQr0Jy/4ZkvKuqWn4iF3lqPZyij9iRv6sGqLRdTPkY69YX6+7wvVGmsdBbiIfN/8OdsI7HABjvEok6ZopQ=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"></script>
+<script
+  src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+  crossorigin="anonymous"></script>
 
-<script>
-  {% for msg in messages %}
-      createMessage("{{msg.name}}", "{{msg.message}}");
-  {% endfor %}
-</script>
 <script src="{{ url_for('static', filename='scripts/private_socketio.js')}}"></script>
-
 
 {% endblock extra_js %}
